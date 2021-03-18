@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/nameRepoTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/languageTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/descriptionTv"
+                android:layout_marginStart="40dp"
+                android:layout_toEndOf="@id/nameRepoTv"
+                android:textSize="25sp"
+                tools:text="Kotlin" />
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameRepoTv"
+                android:layout_marginTop="6dp"
+                android:textSize="18sp"
+                tools:text="Short info" />
+
+            <TextView
+                android:id="@+id/dateTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/descriptionTv"
+                android:layout_marginTop="4dp"
+                tools:text="21.01.21" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_star"
+                tools:text="6"
+                android:layout_below="@id/descriptionTv"
+                android:layout_toEndOf="@id/dateTv"
+                android:layout_marginStart="30dp"
+                android:id="@+id/starTv"
+                android:textSize="20sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/mergeTv"
+                android:layout_toEndOf="@id/starTv"
+                tools:text="master"
+                android:textSize="20sp"
+                android:layout_below="@id/descriptionTv"
+                android:layout_marginStart="20dp"
+                android:drawableStart="@drawable/ic_merge"/>
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

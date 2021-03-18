@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/searchUsersFragment">
+
+    <fragment
+        android:id="@+id/searchUsersFragment"
+        android:name="ru.zaytsev.githubtest.SearchUsersFragment"
+        android:label="SearchUsersFragment"
+        tools:layout="@layout/fragment_search_users">
+        <action
+            android:id="@+id/action_searchUsersFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userDetailFragment"
+        android:name="ru.zaytsev.githubtest.UserDetailFragment"
+        android:label="UserDetailFragment"
+        tools:layout="@layout/fragment_user_detail">
+        <argument
+            android:name="user"
+            app:argType="ru.zaytsev.githubtest.User" />
+    </fragment>
+</navigation>

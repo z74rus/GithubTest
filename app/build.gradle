@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id "androidx.navigation.safeargs.kotlin"
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -15,6 +18,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                appAuthRedirectScheme: "github"
+        ]
     }
 
     buildTypes {
@@ -30,6 +36,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -42,4 +52,46 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    //Adapter Delegate
+    implementation 'com.hannesdorfmann:adapterdelegates4:4.3.0'
+
+    def lifecycleVersion = '2.3.0'
+    //ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.fragment:fragment-ktx:1.3.0"
+    //LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
+
+    def moshiVersion = '1.9.3'
+    //Moshi
+    implementation "com.squareup.moshi:moshi:$moshiVersion"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
+
+    def retrofitVersion = '2.9.0'
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    //Interceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+
+    //AppAuth
+    implementation 'net.openid:appauth:0.7.1'
+
+    //UI
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Coroutins
+    def coroutinesVersion = '1.3.9'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
