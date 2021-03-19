@@ -10,7 +10,15 @@ class SearchUsersRepository {
         query: String
     ): List<User> {
         return withContext(Dispatchers.IO) {
-            Network.gitHubApi.searchUsers(query).items
+            Network.gitHubApi.searchUsers(query = query).items
+        }
+    }
+
+    suspend fun getFollowers(
+        followers_url: String
+    ): List<User> {
+        return withContext(Dispatchers.IO) {
+            Network.gitHubApi.getFollowers(followers_url)
         }
     }
 }

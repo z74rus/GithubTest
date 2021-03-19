@@ -1,7 +1,6 @@
 package ru.zaytsev.githubtest
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import com.bumptech.glide.Glide
 import ru.zaytsev.githubtest.adapters.repo.RepoAdapter
 import ru.zaytsev.githubtest.databinding.FragmentUserDetailBinding
 
-class UserDetailFragment: Fragment() {
+class UserDetailFragment : Fragment() {
     private var _binding: FragmentUserDetailBinding? = null
     private val binding get() = _binding!!
 
@@ -44,17 +43,15 @@ class UserDetailFragment: Fragment() {
             isLoadingState(it)
         }
         viewModel.repositories.observe(viewLifecycleOwner) { repos ->
-            Log.d("ERRORVIEWMODEL", "fragment before adapter $repos")
             repoAdapter?.items = repos
-            Log.d("ERRORVIEWMODEL", " in observer ${repoAdapter?.items}")
         }
         viewModel.user.observe(viewLifecycleOwner) { detailUser ->
             with(binding) {
                 Glide.with(this@UserDetailFragment)
                     .load(args.user.avatar)
                     .into(avatarIv)
-                followersTv.text = "Followes: ${detailUser.followers}"
-                followingTv.text = "Following: ${detailUser.following}"
+                followersTv.text = getString(R.string.followers, detailUser.followers)
+                followingTv.text = getString(R.string.followings, detailUser.following)
                 nameTv.text = detailUser.name
                 userNameTv.text = detailUser.userName
             }
@@ -63,10 +60,8 @@ class UserDetailFragment: Fragment() {
     }
 
     private fun isLoadingState(isLoading: Boolean) {
-        Log.d("ERRORVIEWMODEL", "isLoading $isLoading")
         with(binding) {
             reposRv.isVisible = !isLoading
-            Log.d("ERRORVIEWMODEL", "visibility rv = ${reposRv.isVisible}")
             avatarIv.isVisible = !isLoading
             nameTv.isVisible = !isLoading
             userNameTv.isVisible = !isLoading

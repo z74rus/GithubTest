@@ -2,4 +2,6 @@
     <string name="app_name">GithubTest</string>
     <string name="search_users">Enter a username</string>
     <string name="search">Search</string>
+    <string name="followers">Followers: %1$d</string>
+    <string name="followings">Following: %1$d</string>
 </resources>

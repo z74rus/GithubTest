@@ -15,4 +15,6 @@ data class User(
     @Json(name = "avatar_url")
     val avatar: String = "",
     val id: Long = Random.nextLong(),
+    var countFollows: Int = 0,
+    val followers_url: String? = ""
 ):Parcelable

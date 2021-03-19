@@ -13,6 +13,7 @@ import ru.zaytsev.githubtest.User
 interface GithubApi {
     @GET("search/users")
     suspend fun searchUsers(
+        @Query("per_page") perPage: Int = 10,
         @Query("q") query: String
     ): ServerItemsWrapper<User>
 
@@ -25,4 +26,9 @@ interface GithubApi {
     suspend fun getRepos(
         @Path("username") username: String
     ): List<Repo>
+
+    @GET
+    suspend fun getFollowers(
+        @Url followers_url: String
+    ): List<User>
 }

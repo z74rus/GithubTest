@@ -22,6 +22,9 @@ class SearchUsersFragment: Fragment() {
     private val viewModel: SearchUsersViewModel by viewModels()
     private var userAdapter: UserAdapter? = null
 
+    private var isLastPage: Boolean = false
+    private var isLoading: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

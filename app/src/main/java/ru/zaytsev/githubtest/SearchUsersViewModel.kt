@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -23,7 +24,13 @@ class SearchUsersViewModel : ViewModel() {
         viewModelScope.launch {
             isLoadingLiveData.postValue(true)
             try {
-                val users = repository.searchUsers(query)
+                val usersResult = async {  repository.searchUsers(query) }
+                val users = usersResult.await()
+                users.forEach { user ->
+                    val listFollowsResult = async { repository.getFollowers(user.followers_url ?: "") }
+                    val listFollowers = listFollowsResult.await()
+                    user.countFollows = listFollowers.size ?: 0
+                }
                 userListLiveData.postValue(users)
             } catch (t: Throwable) {
                 Log.e("ErrorScope", "${t.message}")

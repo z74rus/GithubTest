@@ -49,6 +49,7 @@ class UserAdapterDelegate(
         fun bind(user: User) {
             currentUser = user
             binding.nicknameTv.text = user.name
+            binding.followersTv.text = user.countFollows.toString()
 
             Glide.with(itemView)
                 .load(user.avatar)
