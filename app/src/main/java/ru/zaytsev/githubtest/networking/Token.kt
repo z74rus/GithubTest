@@ -1,5 +1,5 @@
 package ru.zaytsev.githubtest.networking
 
 object Token {
-    const val TOKEN = "79a2b97d25d079bf381b8de84f5e797417e39e8b"
+    const val TOKEN = "920d7da2a82121be355dbbad120d67853c332481"
 }
