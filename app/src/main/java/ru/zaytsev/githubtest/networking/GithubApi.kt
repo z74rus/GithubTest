@@ -1,14 +1,7 @@
 package ru.zaytsev.githubtest.networking
 
-import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
-import ru.zaytsev.githubtest.DetailUser
-import ru.zaytsev.githubtest.Repo
-import ru.zaytsev.githubtest.ServerItemsWrapper
-import ru.zaytsev.githubtest.User
+import retrofit2.http.*
+import ru.zaytsev.githubtest.models.*
 
 interface GithubApi {
     @GET("search/users")
@@ -18,9 +11,9 @@ interface GithubApi {
     ): ServerItemsWrapper<User>
 
     @GET("users/{username}")
-    suspend fun getUser(
+    suspend fun getCurrentUser(
         @Path("username") username: String
-    ): DetailUser
+    ): DetailUser?
 
     @GET("/users/{username}/repos")
     suspend fun getRepos(
@@ -31,4 +24,13 @@ interface GithubApi {
     suspend fun getFollowers(
         @Url followers_url: String
     ): List<User>
+
+    @GET("/user")
+    suspend fun getUser(): DetailUser
+
+    @PATCH("/user")
+    suspend fun editInfo(
+        @Body
+        editUser: EditUser
+    )
 }

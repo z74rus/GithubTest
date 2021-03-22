@@ -1,4 +1,4 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.models
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

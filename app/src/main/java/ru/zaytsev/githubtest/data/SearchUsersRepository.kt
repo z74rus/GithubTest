@@ -1,7 +1,8 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ru.zaytsev.githubtest.models.User
 import ru.zaytsev.githubtest.networking.Network
 
 
@@ -10,7 +11,11 @@ class SearchUsersRepository {
         query: String
     ): List<User> {
         return withContext(Dispatchers.IO) {
-            Network.gitHubApi.searchUsers(query = query).items
+            try {
+                Network.gitHubApi.searchUsers(query = query).items
+            } catch (t: Throwable) {
+                emptyList()
+            }
         }
     }
 
@@ -18,7 +23,11 @@ class SearchUsersRepository {
         followers_url: String
     ): List<User> {
         return withContext(Dispatchers.IO) {
-            Network.gitHubApi.getFollowers(followers_url)
+            try {
+                Network.gitHubApi.getFollowers(followers_url)
+            } catch (t: Throwable) {
+                emptyList()
+            }
         }
     }
 }

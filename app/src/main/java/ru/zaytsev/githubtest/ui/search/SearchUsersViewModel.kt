@@ -1,4 +1,4 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.ui.search
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import ru.zaytsev.githubtest.data.SearchUsersRepository
+import ru.zaytsev.githubtest.models.User
 
 
 class SearchUsersViewModel : ViewModel() {

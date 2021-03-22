@@ -1,4 +1,4 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.ui.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import ru.zaytsev.githubtest.R
 import ru.zaytsev.githubtest.adapters.repo.RepoAdapter
 import ru.zaytsev.githubtest.databinding.FragmentUserDetailBinding
+
 
 class UserDetailFragment : Fragment() {
     private var _binding: FragmentUserDetailBinding? = null
@@ -48,7 +50,7 @@ class UserDetailFragment : Fragment() {
         viewModel.user.observe(viewLifecycleOwner) { detailUser ->
             with(binding) {
                 Glide.with(this@UserDetailFragment)
-                    .load(args.user.avatar)
+                    .load(detailUser.avatar)
                     .into(avatarIv)
                 followersTv.text = getString(R.string.followers, detailUser.followers)
                 followingTv.text = getString(R.string.followings, detailUser.following)
@@ -56,7 +58,7 @@ class UserDetailFragment : Fragment() {
                 userNameTv.text = detailUser.userName
             }
         }
-        viewModel.getUserDetail(args.user.name)
+        viewModel.getUserDetail(args.login)
     }
 
     private fun isLoadingState(isLoading: Boolean) {

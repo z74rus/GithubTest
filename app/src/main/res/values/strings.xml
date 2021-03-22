@@ -4,4 +4,20 @@
     <string name="search">Search</string>
     <string name="followers">Followers: %1$d</string>
     <string name="followings">Following: %1$d</string>
+    <string name="text_sign_in">To edit your profile \n you need sign in</string>
+    <string name="sign_in">Sign in</string>
+    <string name="proceed">or to proceed without it</string>
+    <string name="continue_text">continue</string>
+    <string name="bio_text">Bio:</string>
+    <string name="repositories_text">Repositories</string>
+    <string name="search_users_text">Search users</string>
+    <string name="edit_menu_string">Edit</string>
+    <string name="auth_canceled">Not Well</string>
+    <string name="name">Name</string>
+    <string name="edit_name">Enter your new name</string>
+    <string name="location">Location</string>
+    <string name="location_hint">Enter your new location</string>
+    <string name="bio_text_view">Bio</string>
+    <string name="enter_a_new_bio">Enter your short info</string>
+    <string name="accept">Accept</string>
 </resources>

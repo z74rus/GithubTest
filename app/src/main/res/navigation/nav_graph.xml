@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/searchUsersFragment">
+    app:startDestination="@id/startFragment">
 
     <fragment
         android:id="@+id/searchUsersFragment"
-        android:name="ru.zaytsev.githubtest.SearchUsersFragment"
+        android:name="ru.zaytsev.githubtest.ui.search.SearchUsersFragment"
         android:label="SearchUsersFragment"
         tools:layout="@layout/fragment_search_users">
         <action
@@ -16,11 +16,43 @@
     </fragment>
     <fragment
         android:id="@+id/userDetailFragment"
-        android:name="ru.zaytsev.githubtest.UserDetailFragment"
+        android:name="ru.zaytsev.githubtest.ui.details.UserDetailFragment"
         android:label="UserDetailFragment"
         tools:layout="@layout/fragment_user_detail">
         <argument
-            android:name="user"
-            app:argType="ru.zaytsev.githubtest.User" />
+            android:name="login"
+            app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="ru.zaytsev.githubtest.ui.auth.StartFragment"
+        android:label="StartFragment"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_searchUsersFragment"
+            app:destination="@id/searchUsersFragment" />
+        <action
+            android:id="@+id/action_startFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="ru.zaytsev.githubtest.ui.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_searchUsersFragment"
+            app:destination="@id/searchUsersFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_userDetailFragment"
+            app:destination="@id/userDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_editUserInfoFragment"
+            app:destination="@id/editUserInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserInfoFragment"
+        android:name="ru.zaytsev.githubtest.ui.edit.EditUserInfoFragment"
+        android:label="EditUserInfoFragment"
+        tools:layout="@layout/fragment_edit_user_info"/>
 </navigation>

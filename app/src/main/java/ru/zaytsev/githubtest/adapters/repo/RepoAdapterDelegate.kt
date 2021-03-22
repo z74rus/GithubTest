@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import ru.zaytsev.githubtest.Repo
+import ru.zaytsev.githubtest.models.Repo
 import ru.zaytsev.githubtest.databinding.ItemRepoBinding
 
 class RepoAdapterDelegate: AbsListItemAdapterDelegate<Repo, Repo, RepoAdapterDelegate.Holder>() {

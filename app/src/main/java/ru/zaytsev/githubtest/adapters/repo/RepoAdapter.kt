@@ -3,7 +3,7 @@ package ru.zaytsev.githubtest.adapters.repo
 import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import ru.zaytsev.githubtest.Repo
+import ru.zaytsev.githubtest.models.Repo
 
 class RepoAdapter: AsyncListDifferDelegationAdapter<Repo>(DiffUtilCallback()) {
 

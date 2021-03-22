@@ -80,6 +80,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout"
         tools:itemCount="6"
+        tools:listitem="@layout/item_repo"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ProgressBar

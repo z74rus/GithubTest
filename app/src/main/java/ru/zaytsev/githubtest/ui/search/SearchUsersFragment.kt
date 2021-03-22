@@ -1,4 +1,4 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import ru.zaytsev.githubtest.adapters.user.UserAdapter
 import ru.zaytsev.githubtest.databinding.FragmentSearchUsersBinding
+import ru.zaytsev.githubtest.models.User
+
 
 
 class SearchUsersFragment: Fragment() {
@@ -81,7 +83,8 @@ class SearchUsersFragment: Fragment() {
     }
 
     private fun onItemClicked(user: User) {
-        val action = SearchUsersFragmentDirections.actionSearchUsersFragmentToUserDetailFragment(user)
+        val action =
+            SearchUsersFragmentDirections.actionSearchUsersFragmentToUserDetailFragment(user.name)
         findNavController().navigate(action)
     }
 

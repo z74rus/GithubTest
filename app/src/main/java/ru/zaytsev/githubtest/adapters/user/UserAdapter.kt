@@ -2,7 +2,7 @@ package ru.zaytsev.githubtest.adapters.user
 
 import androidx.recyclerview.widget.DiffUtil
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
-import ru.zaytsev.githubtest.User
+import ru.zaytsev.githubtest.models.User
 
 class UserAdapter(
     private val onItemClicked: (User) -> Unit

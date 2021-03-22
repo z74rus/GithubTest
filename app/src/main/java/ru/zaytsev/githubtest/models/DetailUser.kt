@@ -1,4 +1,4 @@
-package ru.zaytsev.githubtest
+package ru.zaytsev.githubtest.models
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

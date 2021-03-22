@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.AbsListItemAdapterDelegate
-import ru.zaytsev.githubtest.User
+import ru.zaytsev.githubtest.R
+import ru.zaytsev.githubtest.models.User
 import ru.zaytsev.githubtest.databinding.ItemUserBinding
 
 class UserAdapterDelegate(
@@ -49,7 +50,7 @@ class UserAdapterDelegate(
         fun bind(user: User) {
             currentUser = user
             binding.nicknameTv.text = user.name
-            binding.followersTv.text = user.countFollows.toString()
+            binding.followersTv.text = itemView.rootView.context.getString(R.string.followers, user.countFollows)
 
             Glide.with(itemView)
                 .load(user.avatar)
