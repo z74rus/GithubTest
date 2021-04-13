@@ -1,12 +1,13 @@
 package ru.zaytsev.githubtest.models
 
 import android.os.Parcelable
+import androidx.room.Entity
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
-
+@Entity
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class User(
