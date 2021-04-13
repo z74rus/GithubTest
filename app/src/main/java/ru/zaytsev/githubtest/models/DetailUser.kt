@@ -1,6 +1,7 @@
 package ru.zaytsev.githubtest.models
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import kotlin.random.Random
@@ -12,6 +13,7 @@ data class DetailUser(
     val name: String = "",
     @Json(name = "avatar_url")
     val avatar: String = "",
+    @PrimaryKey
     val id: Long = Random.nextLong(),
     @Json(name = "followers")
     val followers: Int = 0,
