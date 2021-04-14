@@ -1,5 +1,6 @@
 package ru.zaytsev.githubtest.networking
 
+import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 import ru.zaytsev.githubtest.models.*
 

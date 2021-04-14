@@ -82,16 +82,19 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private fun bindViewModel() {
         viewModel.getUserInfo()
         viewModel.user.observe(viewLifecycleOwner) { user ->
-            currentUser = user
-            with(binding) {
-                Glide.with(this@MainFragment)
-                    .load(user.avatar)
-                    .into(avatarIv)
-                loginTv.text = user.userName
-                nameTv.text = user.name
-                shortInfoTv.text = user.bio
+            user?.let {
+                currentUser = user
+                with(binding) {
+                    Glide.with(this@MainFragment)
+                        .load(user.avatar)
+                        .into(avatarIv)
+                    loginTv.text = user.userName
+                    nameTv.text = user.name
+                    shortInfoTv.text = user.bio
+                }
             }
-        }
+            }
+
         viewModel.isLoading.observe(viewLifecycleOwner, ::isLoadingState)
     }
 

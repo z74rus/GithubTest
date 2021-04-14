@@ -2,10 +2,11 @@ package ru.zaytsev.githubtest.utils
 
 import android.app.Application
 import ru.zaytsev.githubtest.data.MainRepository
+import ru.zaytsev.githubtest.database.DataBase
 
-class UserDetailIntent: Application() {
+class GithubApp: Application() {
     override fun onCreate() {
         super.onCreate()
-        MainRepository.initialize(context = this)
+        DataBase.init(this)
     }
 }

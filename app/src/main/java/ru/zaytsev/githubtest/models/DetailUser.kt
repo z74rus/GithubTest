@@ -12,7 +12,7 @@ data class DetailUser(
     val userName: String = "",
     val name: String = "",
     @Json(name = "avatar_url")
-    val avatar: String = "",
+    val avatar: String? = "",
     @PrimaryKey
     val id: Long = Random.nextLong(),
     @Json(name = "followers")
