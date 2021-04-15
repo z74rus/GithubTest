@@ -7,7 +7,8 @@ import ru.zaytsev.githubtest.models.DetailUser
 
 @Database(
     entities = [DetailUser::class],
-    version = DB_VERSION
+    version = DB_VERSION,
+    exportSchema = false
 )
 abstract class UserDataBase: RoomDatabase() {
     abstract fun userDao(): UserDao

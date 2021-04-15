@@ -14,7 +14,7 @@ class SearchUsersRepository {
             try {
                 Network.gitHubApi.searchUsers(query = query).items
             } catch (t: Throwable) {
-                emptyList()
+                emptyList<User>()
             }
         }
     }
@@ -26,7 +26,7 @@ class SearchUsersRepository {
             try {
                 Network.gitHubApi.getFollowers(followers_url)
             } catch (t: Throwable) {
-                emptyList()
+                emptyList<User>()
             }
         }
     }

@@ -1,21 +1,26 @@
 package ru.zaytsev.githubtest.ui.main
 
+import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
 import ru.zaytsev.githubtest.data.MainRepository
 import ru.zaytsev.githubtest.models.DetailUser
+import javax.inject.Inject
 
-
-
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val repository: MainRepository
+): ViewModel() {
     private val userLiveData: MutableLiveData<DetailUser?> = MutableLiveData()
     private val isLoadingLiveData: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val repository = MainRepository()
 
     val user: LiveData<DetailUser?>
         get() = userLiveData
     val isLoading: LiveData<Boolean>
         get() = isLoadingLiveData
+
+    init {
+        Log.d("InitVIEWMODEL","init $this")
+    }
 
 
 
