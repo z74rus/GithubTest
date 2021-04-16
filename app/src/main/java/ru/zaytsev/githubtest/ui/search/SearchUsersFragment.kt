@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import ru.zaytsev.githubtest.adapters.user.UserAdapter
 import ru.zaytsev.githubtest.databinding.FragmentSearchUsersBinding
+import ru.zaytsev.githubtest.di.GithubApp
 import ru.zaytsev.githubtest.models.User
-
+import javax.inject.Inject
 
 
 class SearchUsersFragment: Fragment() {
@@ -21,17 +24,20 @@ class SearchUsersFragment: Fragment() {
     private var _binding: FragmentSearchUsersBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: SearchUsersViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private  lateinit var viewModel: SearchUsersViewModel
+
     private var userAdapter: UserAdapter? = null
 
-    private var isLastPage: Boolean = false
-    private var isLoading: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        GithubApp.mainComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SearchUsersViewModel::class.java)
         _binding = FragmentSearchUsersBinding.inflate(inflater, container, false)
 
         bindViewModel()

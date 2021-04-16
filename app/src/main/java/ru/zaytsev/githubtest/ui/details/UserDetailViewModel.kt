@@ -10,13 +10,15 @@ import kotlinx.coroutines.launch
 import ru.zaytsev.githubtest.data.UserDetailRepo
 import ru.zaytsev.githubtest.models.DetailUser
 import ru.zaytsev.githubtest.models.Repo
+import javax.inject.Inject
 
-class UserDetailViewModel : ViewModel() {
+class UserDetailViewModel @Inject constructor(
+    private val repository: UserDetailRepo
+) : ViewModel() {
 
     private val isLoadingLiveData = MutableLiveData<Boolean>()
     private val reposLiveData = MutableLiveData<List<Repo>>()
     private val userLiveData = MutableLiveData<DetailUser>()
-    private val repo = UserDetailRepo()
 
     val user: LiveData<DetailUser>
         get() = userLiveData
@@ -34,11 +36,11 @@ class UserDetailViewModel : ViewModel() {
             isLoadingLiveData.postValue(true)
             try {
                 val reposResult = async {
-                    repo.getRepos(username)
+                    this@UserDetailViewModel.repository.getRepos(username)
                 }
 
                 val userResult = async {
-                    repo.getUserDetail(username)
+                    this@UserDetailViewModel.repository.getUserDetail(username)
                 }
 
                 val userDetail = userResult.await()

@@ -1,22 +1,22 @@
 package ru.zaytsev.githubtest.data
 
 
-import ru.zaytsev.githubtest.database.DataBase
 import ru.zaytsev.githubtest.database.UserDao
 import ru.zaytsev.githubtest.models.DetailUser
-import ru.zaytsev.githubtest.networking.Network
+import ru.zaytsev.githubtest.networking.GithubApi
 import javax.inject.Inject
 
 
 class MainRepository @Inject constructor(
-    private val userDao: UserDao
+    private val userDao: UserDao,
+    private val githubApi: GithubApi
 ) {
 
 //    private val userDao = DataBase.instance.userDao()
 
     suspend fun getUserInfo(): DetailUser? {
         return try {
-            val user = Network.gitHubApi.getUser()
+            val user = githubApi.getUser()
             saveUser(user)
             getUserById(user.id)
         } catch (t: Throwable) {

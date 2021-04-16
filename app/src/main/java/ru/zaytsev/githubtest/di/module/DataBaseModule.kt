@@ -4,14 +4,15 @@ import android.app.Application
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import ru.zaytsev.githubtest.database.UserDao
 import ru.zaytsev.githubtest.database.UserDataBase
 
 @Module
-class DataBaseModule {
-
+class DataBaseModule(private val application: Application) {
+    @Reusable
     @Provides
-    fun provideDataBase(application: Application): UserDataBase {
+    fun provideDataBase(): UserDataBase {
         return Room.databaseBuilder(
             application,
             UserDataBase::class.java,
@@ -19,7 +20,7 @@ class DataBaseModule {
         )
             .build()
     }
-
+    @Reusable
     @Provides
     fun provideUserDao(db: UserDataBase): UserDao {
         return db.userDao()

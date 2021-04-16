@@ -1,6 +1,5 @@
 package ru.zaytsev.githubtest.ui.main
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 
@@ -15,8 +14,7 @@ import ru.zaytsev.githubtest.R
 import ru.zaytsev.githubtest.databinding.FragmentMainBinding
 import ru.zaytsev.githubtest.models.DetailUser
 import ru.zaytsev.githubtest.ui.auth.StartFragment
-import androidx.lifecycle.ViewModelProviders
-import ru.zaytsev.githubtest.utils.GithubApp
+import ru.zaytsev.githubtest.di.GithubApp
 import javax.inject.Inject
 
 class MainFragment : Fragment() {
@@ -25,16 +23,9 @@ class MainFragment : Fragment() {
     private val binding get() = _binding!!
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: MainViewModel
 
-    private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-    }
     private var currentUser: DetailUser? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        
-    }
 
 
     override fun onCreateView(
@@ -42,6 +33,8 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        GithubApp.mainComponent.inject(this)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         return binding.root

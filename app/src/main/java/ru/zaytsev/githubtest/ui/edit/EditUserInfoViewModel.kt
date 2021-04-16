@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.zaytsev.githubtest.data.EditUserInfoRepo
 import ru.zaytsev.githubtest.models.EditUser
+import javax.inject.Inject
 
-class EditUserInfoViewModel: ViewModel() {
-    private val repository = EditUserInfoRepo()
+class EditUserInfoViewModel @Inject constructor(private val repository: EditUserInfoRepo): ViewModel() {
 
     suspend fun editInfo(
         editUser: EditUser
