@@ -18,6 +18,8 @@ import com.example.githubmvp.utils.withArguments
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 
@@ -28,8 +30,16 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
     private var userAdapter: UserAdapter? = null
 
     @Inject
+    @InjectPresenter
     lateinit var searchUserPresenter: SearchUserPresenter
-    private val presenter: SearchUserPresenter by moxyPresenter { searchUserPresenter }
+
+    @ProvidePresenter
+    fun provideSearchPresenter() = searchUserPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GithubApp.mainComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
 
     override fun onCreateView(
@@ -37,7 +47,6 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        GithubApp.mainComponent.inject(this)
         _binding = FragmentSearchUsersBinding.inflate(inflater, container, false)
         initUI()
         return binding.root
@@ -46,7 +55,7 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
 
     private fun initUI() {
         userAdapter = UserAdapter { user ->
-            presenter.onClickUser(user)
+            searchUserPresenter.onClickUser(user)
         }
 
         with(binding.listReposRv) {
@@ -59,7 +68,7 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
         with(binding) {
             searchBtn.setOnClickListener {
                 val query = searchReposEt.text.toString()
-                presenter.onSearchButtonClick(query = query)
+                searchUserPresenter.onSearchButtonClick(query = query)
             }
         }
     }
@@ -90,7 +99,7 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
     override fun onClickUser(user: User) {
         requireFragmentManager().beginTransaction()
             .replace(R.id.parentContainer, UserDetailFragment().withArguments {
-                putParcelable(KEY_USER, user)
+                putString(KEY_DETAIL, user.name)
             })
             .addToBackStack("UserDetailFragment")
             .commit()
@@ -98,7 +107,7 @@ class SearchUsersFragment : MvpAppCompatFragment(), SearchUsersView {
 
 
     companion object {
-        private const val KEY_USER = "KEY_USER"
+        private const val KEY_DETAIL = "KEY_DETAIL"
     }
 
 }

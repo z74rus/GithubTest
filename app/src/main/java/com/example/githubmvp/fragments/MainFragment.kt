@@ -22,20 +22,22 @@ import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 
-
 class MainFragment : MvpAppCompatFragment(), MainView {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private var currentUser: DetailUser? = null
 
-    @Inject lateinit var mainRepository: MainRepository
-
-    @InjectPresenter lateinit var presenter: MainPresenter
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: MainPresenter
 
     @ProvidePresenter
-    fun provideMainPresenter(): MainPresenter {
-        return MainPresenter(mainRepository)
+    fun provideMainPresenter() = presenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GithubApp.mainComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -43,7 +45,6 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        GithubApp.mainComponent.inject(this)
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
         initButtons()
@@ -54,7 +55,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
         with(binding) {
             repositoriesBtn.setOnClickListener {
                 presenter.onRepositoriesClick(
-                    currentUser?.userName ?:"vasyan"
+                    currentUser?.userName ?: "test"
                 )
             }
             searchUsersBtn.setOnClickListener {
@@ -70,7 +71,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
+        return when (item.itemId) {
             R.id.logOut -> {
                 presenter.onLogOutClick()
                 true
@@ -84,6 +85,7 @@ class MainFragment : MvpAppCompatFragment(), MainView {
     }
 
     override fun showShortInfo(detailUser: DetailUser) {
+        currentUser = detailUser
         with(binding) {
             Glide.with(this@MainFragment)
                 .load(detailUser.avatar)

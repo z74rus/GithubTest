@@ -21,9 +21,10 @@ class UserDetailRepo @Inject constructor(
 
     suspend fun getUserDetail(userName: String): DetailUser? {
         return try {
+            Log.d("ERRORPUK", "userName = $userName")
             githubApi.getCurrentUser(userName)
         } catch (t: Throwable) {
-            Log.e("ERROR", t.message.toString())
+            Log.e("ERRORPUK", t.message.toString())
             null
         }
     }

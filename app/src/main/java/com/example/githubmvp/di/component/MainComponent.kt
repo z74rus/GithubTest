@@ -10,6 +10,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [DataBaseModule::class, NetworkModule::class, MainModule::class])
 interface MainComponent {
+    fun inject(startFragment: StartFragment)
     fun inject(mainFragment: MainFragment)
     fun inject(userDetailFragment: UserDetailFragment)
     fun inject(searchUsersFragment: SearchUsersFragment)

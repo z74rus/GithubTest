@@ -6,15 +6,15 @@ import androidx.core.content.ContextCompat
 import com.example.githubmvp.R
 import com.example.githubmvp.mvp.models.AuthRepository
 import com.example.githubmvp.mvp.views.StartView
+import moxy.InjectViewState
 import moxy.MvpPresenter
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
 import javax.inject.Inject
-
+@InjectViewState
 class StartPresenter(
     private val application: Application,
-
 ) : MvpPresenter<StartView>() {
     private val authRepository: AuthRepository = AuthRepository()
 

@@ -31,6 +31,8 @@ class SearchUserPresenter @Inject constructor(
                     }
                     viewState.onClickSearch(users)
                 }
+                viewState.showLoading(false)
+
             }, onError = {
                 viewState.showLoading(false)
                 viewState.onError("Error = $it")

@@ -18,6 +18,8 @@ import com.example.githubmvp.utils.withArguments
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import com.example.githubmvp.models.DetailUser
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import javax.inject.Inject
 
 
@@ -28,8 +30,16 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView {
     private var repoAdapter: RepoAdapter? = null
 
     @Inject
+    @InjectPresenter
     lateinit var userDetailPresenter: UserDetailPresenter
-    private val presenter: UserDetailPresenter by moxyPresenter { userDetailPresenter }
+
+    @ProvidePresenter
+    fun provideUserDetailPresenter() = userDetailPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        GithubApp.mainComponent.inject(this)
+        super.onCreate(savedInstanceState)
+    }
 
 
     override fun onCreateView(
@@ -37,7 +47,6 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        GithubApp.mainComponent.inject(this)
         _binding = FragmentUserDetailBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -46,8 +55,8 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-        val userName = requireArguments().getString(KEY_USER).toString()
-        presenter.getUserInfo(userName)
+        val userName = requireArguments().getString(KEY_DETAIL).toString()
+        userDetailPresenter.getUserInfo(userName)
 
     }
 
@@ -101,11 +110,11 @@ class UserDetailFragment : MvpAppCompatFragment(), UserDetailView {
 
     companion object {
 
-        private const val KEY_USER = "KEY_USER"
+        private const val KEY_DETAIL = "KEY_DETAIL"
 
         fun newInstance(userName: String): UserDetailFragment {
             return UserDetailFragment().withArguments {
-                putString(KEY_USER, userName)
+                putString(KEY_DETAIL, userName)
             }
         }
     }

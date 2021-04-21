@@ -19,7 +19,7 @@ interface StartView: MvpView {
     @StateStrategyType(SkipStrategy::class)
     fun onSuccess(message: String)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(OneExecutionStateStrategy::class)
     fun onSuccessLogin()
 
     @StateStrategyType(OneExecutionStateStrategy::class)

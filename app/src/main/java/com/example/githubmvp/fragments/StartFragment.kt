@@ -15,6 +15,7 @@ import com.example.githubmvp.mvp.presenters.StartPresenter
 import com.example.githubmvp.mvp.views.StartView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -114,13 +115,14 @@ class StartFragment : MvpAppCompatFragment(), StartView {
     }
 
     override fun onSuccessLogin() {
-        CoroutineScope(Dispatchers.IO).launch {
+        GlobalScope.launch(Dispatchers.IO) {
             sharedPref.edit()
                 .putString(TOKEN, AuthConfig.accessToken)
                 .apply()
             launch(Dispatchers.Main) {
                 requireFragmentManager().beginTransaction()
                     .replace(R.id.container, MainFragment())
+                    .commit()
             }
         }
 

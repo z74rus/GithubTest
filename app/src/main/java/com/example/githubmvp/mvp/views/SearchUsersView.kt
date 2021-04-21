@@ -13,7 +13,7 @@ interface SearchUsersView : MvpView {
     @StateStrategyType(AddToEndSingleStrategy::class)
     fun onClickSearch(users: List<User>)
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(SkipStrategy::class)
     fun showLoading(isShow: Boolean)
 
     @StateStrategyType(SkipStrategy::class)
