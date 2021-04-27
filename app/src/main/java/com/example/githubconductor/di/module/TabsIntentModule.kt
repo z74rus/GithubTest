@@ -1,7 +1,6 @@
 package com.example.githubconductor.di.module
 
-import android.app.Application
-import android.content.Intent
+import android.content.Context
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import com.example.githubconductor.R
@@ -10,12 +9,12 @@ import dagger.Provides
 import dagger.Reusable
 
 @Module
-class TabsIntentModule(private val application: Application) {
+class TabsIntentModule {
     @Reusable
     @Provides
-    fun provideIntent(): CustomTabsIntent {
+    fun provideIntent(context: Context): CustomTabsIntent {
         return CustomTabsIntent.Builder()
-            .setToolbarColor(ContextCompat.getColor(application, R.color.black))
+            .setToolbarColor(ContextCompat.getColor(context, R.color.black))
             .build()
     }
 }

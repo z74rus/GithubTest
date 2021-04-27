@@ -1,6 +1,6 @@
 package com.example.githubconductor.di.module
 
-import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.example.githubmvp.data.database.UserDao
 import com.example.githubmvp.data.database.UserDataBase
@@ -10,12 +10,12 @@ import dagger.Reusable
 
 
 @Module
-class DataBaseModule(private val application: Application) {
+class DataBaseModule {
     @Reusable
     @Provides
-    fun provideDataBase(): UserDataBase {
+    fun provideDataBase(context: Context): UserDataBase {
         return Room.databaseBuilder(
-            application,
+            context,
             UserDataBase::class.java,
             UserDataBase.DB_NAME
         )

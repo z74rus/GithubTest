@@ -1,13 +1,13 @@
 package com.example.githubconductor.di.module
 
+import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
-import net.openid.appauth.AuthorizationService
 @Module
-class AuthModule {
+class AppModule(private val application: Application) {
     @Reusable
     @Provides
-    fun provideAuth(context: Context) =  AuthorizationService(context)
+    fun provideContext(): Context = application
 }

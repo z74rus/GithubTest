@@ -1,6 +1,5 @@
 package com.example.githubconductor.di.module
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
@@ -8,11 +7,11 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class SharedPrefModule(private val application: Application) {
+class SharedPrefModule {
 
     @Singleton
     @Provides
-    fun provideSharedPref(): SharedPreferences {
-        return application.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
+    fun provideSharedPref(context: Context): SharedPreferences {
+        return context.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
     }
 }
