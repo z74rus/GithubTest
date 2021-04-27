@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import com.example.githubconductor.R
+import android.widget.Toast
+import com.example.githubconductor.databinding.ControllerEditUserInfoBinding
 import com.example.githubconductor.di.GithubApp
 import com.example.githubconductor.models.EditUser
 import com.example.githubconductor.mvp.presenters.EditUserInfoPresenter
@@ -18,10 +17,8 @@ import javax.inject.Inject
 
 class EditUserInfoController: MoxyController(), EditUserView {
 
-    private lateinit var acceptButton: Button
-    private lateinit var nameEditText: EditText
-    private lateinit var locationEditText: EditText
-    private lateinit var bioEditText: EditText
+    private var _binding: ControllerEditUserInfoBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     @InjectPresenter
@@ -32,37 +29,40 @@ class EditUserInfoController: MoxyController(), EditUserView {
 
 
     private fun initUI() {
-        acceptButton.setOnClickListener {
+        binding.acceptButton.setOnClickListener {
             updateInfo()
         }
     }
 
     private fun updateInfo() {
-        val name = nameEditText.text.toString()
-        val location = locationEditText.text.toString()
-        val bio = bioEditText.text.toString()
+        val name = binding.nameEditText.text.toString()
+        val location = binding.locationEditText.text.toString()
+        val bio = binding.bioEditText.text.toString()
         val updatedUser = EditUser(name, location, bio)
         editUserInfoPresenter.onClickButton(updatedUser)
     }
 
     override fun onSuccess() {
-        TODO("Not yet implemented")
+        Toast.makeText(activity, "Success", Toast.LENGTH_SHORT).show()
     }
 
     override fun onError(message: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(activity, "Error = $message", Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup,
         savedViewState: Bundle?
-    ): View = inflater.inflate(R.layout.controller_edit_user_info, container, false).apply {
+    ): View {
+        _binding = ControllerEditUserInfoBinding.inflate(inflater, container, false)
         GithubApp.mainComponent.inject(this@EditUserInfoController)
-        acceptButton = findViewById(R.id.acceptButton)
-        nameEditText = findViewById(R.id.nameEditText)
-        locationEditText = findViewById(R.id.locationEditText)
-        bioEditText = findViewById(R.id.bioEditText)
         initUI()
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

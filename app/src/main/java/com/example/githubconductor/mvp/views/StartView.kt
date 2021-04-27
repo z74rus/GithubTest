@@ -27,5 +27,4 @@ interface StartView: MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun onClickButtonWithoutLogin()
-    
 }

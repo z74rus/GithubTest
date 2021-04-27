@@ -1,7 +1,6 @@
 package com.example.githubconductor.di.module
 
-
-import com.example.githubconductor.data.network.AuthConfig
+import android.content.SharedPreferences
 import com.example.githubconductor.data.network.GithubApi
 import com.example.githubconductor.data.network.TokenInterceptor
 import dagger.Module
@@ -17,10 +16,10 @@ class NetworkModule {
 
     @Provides
     @Reusable
-    internal fun provideOkHttpClient(): OkHttpClient {
+    internal fun provideOkHttpClient(sharedPref: SharedPreferences): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val tokenInterceptor = TokenInterceptor(AuthConfig.accessToken)
+        val tokenInterceptor = TokenInterceptor(sharedPref.getString(TOKEN,null))
 
         return OkHttpClient.Builder()
             .addNetworkInterceptor(interceptor)
@@ -38,4 +37,8 @@ class NetworkModule {
     @Provides
     @Reusable
     internal fun provideGitHubApi(retrofit: Retrofit): GithubApi = retrofit.create(GithubApi::class.java)
+
+    companion object {
+        private const val TOKEN = "TOKEN"
+    }
 }

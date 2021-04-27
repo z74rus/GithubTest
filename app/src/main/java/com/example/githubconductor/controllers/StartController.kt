@@ -1,70 +1,44 @@
 package com.example.githubconductor.controllers
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import com.bluelinelabs.conductor.RouterTransaction
-import com.example.githubconductor.R
-import com.example.githubconductor.data.network.AuthConfig
+import com.example.githubconductor.databinding.ControllerStartBinding
+import com.example.githubconductor.di.GithubApp
 import com.example.githubconductor.mvp.presenters.StartPresenter
 import com.example.githubconductor.mvp.views.StartView
 import com.example.githubconductor.utils.MoxyController
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
+import moxy.presenter.ProvidePresenter
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationResponse
+import javax.inject.Inject
 
-class StartController: MoxyController(), StartView {
+class StartController : MoxyController(), StartView {
 
-    private lateinit var continueButton: Button
-    private lateinit var signInButton: Button
+    private var _binding: ControllerStartBinding? = null
+    private val binding get() = _binding!!
 
-    private val sharedPref by lazy {
-        activity?.getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE)
-    }
-    private var token: String? = null
+    @Inject
+    @InjectPresenter
+    lateinit var presenter: StartPresenter
 
-    lateinit var startPresenter: StartPresenter
-    private val presenter: StartPresenter by moxyPresenter { startPresenter }
+    @ProvidePresenter
+    fun provideMainPresenter() = presenter
 
 
     private fun initUI() {
-            continueButton.setOnClickListener {
-                presenter.startWithoutLogin()
-            }
-            signInButton.setOnClickListener {
-                presenter.openLoginPage()
-            }
-    }
-
-    private fun isLogOut() {
-        if (isLogOut) {
-            sharedPref
-                ?.edit()
-                ?.clear()
-                ?.apply()
+        presenter.checkIsToken()
+        binding.continueButton.setOnClickListener {
+            presenter.startWithoutLogin()
         }
-    }
-
-    private fun isSingInCheck() {
-        CoroutineScope(Dispatchers.IO).launch {
-            token = sharedPref?.getString(TOKEN, null)
-            AuthConfig.accessToken = token
-            if (token != null) {
-                launch(Dispatchers.Main) {
-                    router.pushController(RouterTransaction.with(MainController()))
-                }
-            }
+        binding.signInButton.setOnClickListener {
+            presenter.openLoginPage()
         }
-
     }
 
 
@@ -72,13 +46,11 @@ class StartController: MoxyController(), StartView {
         inflater: LayoutInflater,
         container: ViewGroup,
         savedViewState: Bundle?
-    ): View = inflater.inflate(R.layout.controller_start, container, false).apply {
-        continueButton = findViewById(R.id.continueButton)
-        signInButton = findViewById(R.id.signInButton)
-        startPresenter = StartPresenter(activity!!.application,)
+    ): View {
+        _binding = ControllerStartBinding.inflate(inflater, container, false)
+        GithubApp.mainComponent.inject(this)
         initUI()
-        isSingInCheck()
-        isLogOut()
+        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -110,20 +82,12 @@ class StartController: MoxyController(), StartView {
     }
 
     override fun onSuccessLogin() {
-        GlobalScope.launch(Dispatchers.IO) {
-            sharedPref?.edit()
-                ?.putString(TOKEN, AuthConfig.accessToken)
-                ?.apply()
-            launch(Dispatchers.Main) {
-                router.pushController(RouterTransaction.with(MainController()))
-            }
-        }
-
+        router.pushController(RouterTransaction.with(MainController()))
     }
 
     override fun isLoading(isLoading: Boolean) {
-        signInButton.isEnabled = !isLoading
-        continueButton.isEnabled = !isLoading
+        binding.signInButton.isEnabled = !isLoading
+        binding.continueButton.isEnabled = !isLoading
 
     }
 
@@ -132,11 +96,14 @@ class StartController: MoxyController(), StartView {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
+
     companion object {
         private const val AUTH_REQUEST_CODE = 342
-        private const val SHARED_PREF = "SHARED_PREF"
-        private const val TOKEN = "TOKEN"
-        var isLogOut = false
     }
 
 }

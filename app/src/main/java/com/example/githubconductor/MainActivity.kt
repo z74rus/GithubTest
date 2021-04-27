@@ -2,22 +2,24 @@ package com.example.githubconductor
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ViewGroup
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.githubconductor.controllers.StartController
+import com.example.githubconductor.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val container: ViewGroup = findViewById(R.id.controller_container)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         router = Conductor.attachRouter(
-                activity = this, container = container, savedInstanceState = savedInstanceState
+                activity = this, container = binding.controllerContainer, savedInstanceState = savedInstanceState
         )
         if(!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(StartController()))

@@ -1,9 +1,6 @@
 package com.example.githubconductor.mvp.presenters
 
-import android.app.Application
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
-import com.example.githubconductor.R
 import com.example.githubconductor.mvp.models.AuthRepository
 import com.example.githubconductor.mvp.views.StartView
 import moxy.InjectViewState
@@ -11,14 +8,14 @@ import moxy.MvpPresenter
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationService
 import net.openid.appauth.TokenRequest
+import javax.inject.Inject
 
 @InjectViewState
-class StartPresenter(
-    private val application: Application
+class StartPresenter @Inject constructor(
+    private val customTabsIntent: CustomTabsIntent,
+    private val authRepository: AuthRepository,
+    private val authService: AuthorizationService
 ) : MvpPresenter<StartView>() {
-    private val authRepository: AuthRepository = AuthRepository()
-
-    private val authService: AuthorizationService = AuthorizationService(application)
 
     fun onAuthCodeFailed(exception: AuthorizationException) {
         viewState.onError(exception.message.toString())
@@ -40,15 +37,21 @@ class StartPresenter(
         )
     }
 
+    fun checkIsToken() {
+        if(authRepository.checkIsToken())
+            viewState.onSuccessLogin()
+    }
+
     fun openLoginPage() {
-        val customTableIntent = CustomTabsIntent.Builder()
-            .setToolbarColor(ContextCompat.getColor(application, R.color.black))
-            .build()
-        val openAuthPageIntent = authService.getAuthorizationRequestIntent(
-            authRepository.getAuthRequest(),
-            customTableIntent
-        )
-        viewState.openLoginPage(openAuthPageIntent)
+        if (authRepository.checkIsToken()) {
+            viewState.onSuccessLogin()
+        } else {
+            val openAuthPageIntent = authService.getAuthorizationRequestIntent(
+                authRepository.getAuthRequest(),
+                customTabsIntent
+            )
+            viewState.openLoginPage(openAuthPageIntent)
+        }
     }
 
     fun startWithoutLogin() {

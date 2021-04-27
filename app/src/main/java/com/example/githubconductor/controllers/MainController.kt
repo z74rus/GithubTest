@@ -2,15 +2,11 @@ package com.example.githubconductor.controllers
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bumptech.glide.Glide
 import com.example.githubconductor.R
+import com.example.githubconductor.databinding.ControllerMainBinding
 import com.example.githubconductor.models.DetailUser
 import com.example.githubconductor.mvp.presenters.MainPresenter
 import com.example.githubconductor.di.GithubApp
@@ -24,14 +20,8 @@ import javax.inject.Inject
 class MainController : MoxyController(), MainView {
 
     private var currentUser: DetailUser? = null
-    private lateinit var searchUsersBtn: Button
-    private lateinit var repositoriesBtn: Button
-    private lateinit var avatarIv: ImageView
-    private lateinit var loginTv: TextView
-    private lateinit var nameTv: TextView
-    private lateinit var shortInfoTv: TextView
-    private lateinit var progressBar: ProgressBar
-    private lateinit var cardView: CardView
+    private var _binding: ControllerMainBinding? = null
+    private val binding get() = _binding!!
 
     @Inject
     @InjectPresenter
@@ -41,12 +31,12 @@ class MainController : MoxyController(), MainView {
     fun provideMainPresenter() = presenter
 
     private fun initButtons() {
-        repositoriesBtn.setOnClickListener {
+        binding.repositoriesBtn.setOnClickListener {
             presenter.onRepositoriesClick(
                 currentUser?.userName ?: "test"
             )
         }
-        searchUsersBtn.setOnClickListener {
+        binding.searchUsersBtn.setOnClickListener {
             presenter.onSearchClick()
         }
     }
@@ -57,19 +47,11 @@ class MainController : MoxyController(), MainView {
         container: ViewGroup,
         savedViewState: Bundle?
     ): View {
-        val view = inflater.inflate(R.layout.controller_main, container, false)
+        _binding = ControllerMainBinding.inflate(inflater, container, false)
         GithubApp.mainComponent.inject(this)
-        searchUsersBtn = view.findViewById(R.id.searchUsersBtn)
-        repositoriesBtn = view.findViewById(R.id.repositoriesBtn)
-        avatarIv = view.findViewById(R.id.avatarIv)
-        loginTv = view.findViewById(R.id.loginTv)
-        nameTv = view.findViewById(R.id.nameTv)
-        shortInfoTv = view.findViewById(R.id.shortInfoTv)
-        progressBar = view.findViewById(R.id.progressBar)
-        cardView = view.findViewById(R.id.cardView)
         setHasOptionsMenu(true)
         initButtons()
-        return view
+        return binding.root
     }
 
 
@@ -92,14 +74,19 @@ class MainController : MoxyController(), MainView {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     override fun showShortInfo(detailUser: DetailUser) {
         currentUser = detailUser
         Glide.with(activity!!)
             .load(detailUser.avatar)
-            .into(avatarIv)
-        loginTv.text = detailUser.userName
-        nameTv.text = detailUser.name
-        shortInfoTv.text = detailUser.bio
+            .into(binding.avatarIv)
+        binding.loginTv.text = detailUser.userName
+        binding.nameTv.text = detailUser.name
+        binding.shortInfoTv.text = detailUser.bio
     }
 
     override fun openRepositoriesScreen(detailUserName: String) {
@@ -112,8 +99,8 @@ class MainController : MoxyController(), MainView {
     }
 
     override fun showLoading(isShow: Boolean) {
-        progressBar.isVisible = isShow
-        cardView.isVisible = !isShow
+        binding.progressBar.isVisible = isShow
+        binding.cardView.isVisible = !isShow
     }
 
     override fun openEditUserScreen() {
@@ -126,6 +113,6 @@ class MainController : MoxyController(), MainView {
     }
 
     override fun onClickLogOut() {
-        StartController.isLogOut = true
+
     }
 }
