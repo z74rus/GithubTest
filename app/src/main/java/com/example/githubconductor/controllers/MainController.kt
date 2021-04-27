@@ -113,6 +113,6 @@ class MainController : MoxyController(), MainView {
     }
 
     override fun onClickLogOut() {
-
+        router.pushController(RouterTransaction.with(StartController()))
     }
 }

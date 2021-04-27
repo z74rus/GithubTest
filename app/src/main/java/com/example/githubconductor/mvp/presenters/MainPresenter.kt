@@ -36,6 +36,7 @@ class MainPresenter @Inject constructor(
     }
 
     fun onLogOutClick() {
+        mainRepository.logOut()
         viewState.onClickLogOut()
     }
 

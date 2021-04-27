@@ -1,5 +1,6 @@
 package com.example.githubconductor.mvp.models
 
+import android.content.SharedPreferences
 import com.example.githubmvp.data.database.UserDao
 import com.example.githubconductor.data.network.GithubApi
 import com.example.githubconductor.models.DetailUser
@@ -8,7 +9,8 @@ import javax.inject.Inject
 
 class MainRepository @Inject constructor(
     private val userDao: UserDao,
-    private val githubApi: GithubApi
+    private val githubApi: GithubApi,
+    private val sharedPrefs: SharedPreferences
 ) {
 
     suspend fun getUserInfo(): DetailUser? {
@@ -45,6 +47,12 @@ class MainRepository @Inject constructor(
         } catch (t: Throwable) {
             emptyList()
         }
+    }
+
+    fun logOut() {
+        sharedPrefs.edit()
+            .clear()
+            .apply()
     }
 
 

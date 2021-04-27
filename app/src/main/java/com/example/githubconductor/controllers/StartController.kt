@@ -95,13 +95,13 @@ class StartController : MoxyController(), StartView {
         router.pushController(RouterTransaction.with(SearchUsersController()))
     }
 
-
+    override fun handleBack(): Boolean {
+        return false
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
-
     companion object {
         private const val AUTH_REQUEST_CODE = 342
     }

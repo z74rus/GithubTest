@@ -5,10 +5,11 @@ import moxy.viewstate.strategy.AddToEndSingleStrategy
 import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 import com.example.githubconductor.models.DetailUser
+import moxy.viewstate.strategy.AddToEndStrategy
 
 interface MainView: MvpView {
 
-    @StateStrategyType(AddToEndSingleStrategy::class)
+    @StateStrategyType(AddToEndStrategy::class)
     fun showShortInfo(detailUser: DetailUser)
 
     @StateStrategyType(OneExecutionStateStrategy::class)

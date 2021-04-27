@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if(!router.handleBack()) {
-            super.onBackPressed()
+            finish()
         }
     }
 }
